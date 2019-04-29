@@ -13,10 +13,12 @@ ini_set('default_charset', 'utf8mb4');
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     //Main Server API
-    $r->addRoute('GET', '/', 'index');
-    $r->addRoute('GET', '/test', 'test');
-    $r->addRoute('GET', '/jwt', 'validateJwt');
-    $r->addRoute('POST', '/jwt', 'createJwt');
+     $r->addRoute('GET', '/', 'index');
+     $r->addRoute('GET', '/test', 'test');
+     $r->addRoute('GET', '/test/{testNo}', 'testDetail');
+     $r->addRoute('POST', '/test', 'testPost');
+     $r->addRoute('GET', '/jwt', 'validateJwt');
+     $r->addRoute('POST', '/jwt', 'createJwt');
 
 //    $r->addRoute('GET', '/logs/error', 'ERROR_LOGS');
 //    $r->addRoute('GET', '/logs/access', 'ACCESS_LOGS');
