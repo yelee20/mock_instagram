@@ -23,7 +23,7 @@ function isValidHeader($jwt, $key)
         $data = getDataByJWToken($jwt, $key);
         //로그인 함수 직접 구현 요함
         return isValidJWToken($data->email, $data->phoneNo, $jwt, $data->authNo);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         return false;
     }
 }
@@ -94,7 +94,12 @@ function getJWToken($email, $phone, $authNo, $secretKey)
 
 function getDataByJWToken($jwt, $secretKey)
 {
-    $decoded = JWT::decode($jwt, $secretKey, array('HS256'));
+    try{
+        $decoded = JWT::decode($jwt, $secretKey, array('HS256'));
+    }catch(\Exception $e){
+        return "";
+    }
+
 //    print_r($decoded);
     return $decoded;
 

@@ -110,6 +110,6 @@ try {
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     return getSQLErrorException($errorLogs, $e, $req);
 }
