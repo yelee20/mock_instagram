@@ -4,7 +4,7 @@
 function test()
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT * FROM TEST_TB;";
+    $query = "SELECT * FROM Test;";
 
     $st = $pdo->prepare($query);
     //    $st->execute([$param,$param]);
@@ -22,7 +22,7 @@ function test()
 function testDetail($testNo)
 {
     $pdo = pdoSqlConnect();
-    $query = "SELECT * FROM TEST_TB WHERE no = ?;";
+    $query = "SELECT * FROM Test WHERE no = ?;";
 
     $st = $pdo->prepare($query);
     $st->execute([$testNo]);
@@ -40,7 +40,7 @@ function testDetail($testNo)
 function testPost($name)
 {
     $pdo = pdoSqlConnect();
-    $query = "INSERT INTO TEST_TB (name) VALUES (?);";
+    $query = "INSERT INTO Test (name) VALUES (?);";
 
     $st = $pdo->prepare($query);
     $st->execute([$name]);
@@ -49,6 +49,25 @@ function testPost($name)
     $pdo = null;
 
 }
+
+
+function isValidUser($id, $pw){
+    $pdo = pdoSqlConnect();
+    $query = "SELECT EXISTS(SELECT * FROM User WHERE userId= ? AND userPw = ?) AS exist;";
+
+
+    $st = $pdo->prepare($query);
+    //    $st->execute([$param,$param]);
+    $st->execute([$id, $pw]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+
+    $st=null;$pdo = null;
+
+    return intval($res[0]["exist"]);
+
+}
+
 
 // CREATE
 //    function addMaintenance($message){

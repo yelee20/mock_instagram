@@ -22,7 +22,7 @@ function isValidHeader($jwt, $key)
     try {
         $data = getDataByJWToken($jwt, $key);
         //로그인 함수 직접 구현 요함
-        return isValidJWToken($data->email, $data->phoneNo, $jwt, $data->authNo);
+        return isValidUser($data->id, $data->pw);
     } catch (\Exception $e) {
         return false;
     }
@@ -74,13 +74,12 @@ function getTodayByTimeStamp()
     return date("Y-m-d H:i:s");
 }
 
-function getJWToken($email, $phone, $authNo, $secretKey)
+function getJWToken($id, $pw, $secretKey)
 {
     $data = array(
         'date' => (string)getTodayByTimeStamp(),
-        'email' => (string)$email,
-        'authNo' => (string)$authNo,
-        'phoneNo' => (string)$phone
+        'id' => (string)$id,
+        'pw' => (string)$pw
     );
 
 //    echo json_encode($data);
