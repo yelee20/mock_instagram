@@ -1,4 +1,5 @@
 <?php
+require './pdos/DatabasePdo.php';
 require './pdos/IndexPdo.php';
 require './vendor/autoload.php';
 
