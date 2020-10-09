@@ -98,7 +98,7 @@ function sendFcm($fcmToken, $data, $key, $deviceType)
 
     $result = curl_exec($ch);
     if ($result === FALSE) {
-        //die('FCM Send Error: ' . cur  l_error($ch));
+        //die('FCM Send Error: ' . curl_error($ch));
     }
     curl_close($ch);
     return $result;
