@@ -17,24 +17,44 @@ try {
         case "createJwt":
             http_response_code(200);
 
+            // 보안에 취약 (userIdx 넣기)
             // 1) 로그인 시 email, password 받기
-            if (!isValidUser($req->email, $req->password)) { // JWTPdo.php 에 구현
+            $ID = isset($req->ID) ? $req->ID : null;
+            $password = isset($req->password) ? $req->password : null;
+
+            if (is_null($ID)) {
                 $res->isSuccess = FALSE;
-                $res->code = 201;
-                $res->message = "유효하지 않은 아이디 입니다";
+                $res->code = 400;
+                $res->message = "ID가 null입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                return;
+            }
+
+            if (is_null($password)) {
+                $res->isSuccess = FALSE;
+                $res->code = 400;
+                $res->message = "password가 null입니다";
+                echo json_encode($res, JSON_NUMERIC_CHECK);
+                return;
+            }
+
+            if (!isValidUser($ID, $password)) { // JWTPdo.php 에 구현
+                $res->isSuccess = FALSE;
+                $res->code = 404;
+                $res->message = "유효하지 않은 아이디 입니다. 회원가입을 해주세요";
                 echo json_encode($res, JSON_NUMERIC_CHECK);
                 return;
             }
 
             // 2) JWT 발급
             // Payload에 맞게 다시 설정 요함, 아래는 Payload에 userIdx를 넣기 위한 과정
-            $userIdx = getUserIdxByEmail($req->email);  // JWTPdo.php 에 구현
+            $userIdx = getUserIdxByID($ID);  // JWTPdo.php 에 구현
             $jwt = getJWT($userIdx, JWT_SECRET_KEY); // function.php 에 구현
 
-            $res->result->jwt = $jwt;
+            $res->result = $jwt;
             $res->isSuccess = TRUE;
-            $res->code = 100;
-            $res->message = "테스트 성공";
+            $res->code = 200;
+            $res->message = "JWT 발급 성공";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
 
